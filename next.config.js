@@ -1,10 +1,14 @@
-const withTypescript = require('@zeit/next-typescript');
 const path = require('path');
+const withCSS = require('@zeit/next-css');
 const DotenvWebpackPlugin = require('dotenv-webpack');
-module.exports = withTypescript({
-  useFileSystemPublicRoutes: false,
-  webpack: function (config, { buildId, dev }) {
-    const originalEntry = config.entry;
+const withTypescript = require('@zeit/next-typescript');
+module.exports = withTypescript(
+  withCSS({
+    useFileSystemPublicRoutes: false,
+    cssLoaderOptions: {
+      url: false,
+    },
+    webpack: config => {
       config.module.rules = [
         ...(config.module.rules || []),
         {
@@ -13,17 +17,18 @@ module.exports = withTypescript({
         },
       ];
 
-  config.plugins = [...(config.plugins || []), new DotenvWebpackPlugin()];
-    config.resolve = {
-      ...config.resolve,
-      ...{
-        alias: {
-          ...config.resolve.alias,
-          '@src': path.resolve(__dirname, 'client'),
-        }
-      },
-    };
+      config.plugins = [...(config.plugins || []), new DotenvWebpackPlugin()];
+      config.resolve = {
+        ...config.resolve,
+        ...{
+          alias: {
+            ...config.resolve.alias,
+            '@src': path.resolve(__dirname, 'client'),
+          },
+        },
+      };
 
-    return config
-  }
-});
+      return config;
+    },
+  }),
+);
