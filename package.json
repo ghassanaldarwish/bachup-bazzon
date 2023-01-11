@@ -34,7 +34,7 @@
     "cache-manager": "^2.9.0",
     "caniuse-lite": "^1.0.30001028",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.0",
     "dotenv": "^6.1.0",
